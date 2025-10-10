@@ -1,3 +1,7 @@
+# app.py
+# Version: 1.0.1
+# Built with GitHub Actions CI/CD
+
 import os
 import re
 import csv

@@ -1,0 +1,95 @@
+# Git files
+.git
+.gitignore
+.github
+
+# Python cache files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+.Python
+
+# Virtual environment folders
+env/
+venv/
+.venv
+ENV/
+env.bak/
+venv.bak/
+virtualenv/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Documentation
+README.md
+README.rst
+docs/
+*.md
+
+# Docker files
+.dockerignore
+Dockerfile
+docker-compose.yml
+docker-compose*.yml
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+*.cover
+*.log
+
+# Distribution / packaging
+.eggs/
+*.egg-info/
+*.egg
+dist/
+build/
+develop-eggs/
+.installed.cfg
+*.manifest
+*.spec
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Environment variables
+.env
+.env.*
+*.env
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+
+# Package manager files
+pip-log.txt
+pip-delete-this-directory.txt
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
