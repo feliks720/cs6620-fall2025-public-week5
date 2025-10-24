@@ -9,6 +9,7 @@ from io import StringIO
 from flask import Flask, render_template, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
 from pydub import AudioSegment
+from datetime import datetime
 import tempfile
 
 app = Flask(__name__)
@@ -94,17 +95,6 @@ def parse_log_content(log_content):
     return data
 
 
-@app.route('/')
-def hello():
-    return f'''
-    <h1>Hello from Automated CI/CD Pipeline!</h1>
-    <p><strong>Version:</strong> 2.0 - Automated Deployment</p>
-    <p><strong>Deployed via:</strong> GitHub Actions + AWS SSM</p>
-    <p><strong>Build Date:</strong> {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
-    <p><strong>Assignment:</strong> Automated EC2 Deployment</p>
-    '''
-
-
 @app.route('/health')
 def health():
     return {
@@ -168,9 +158,81 @@ def serve_audio_segment():
 @app.route('/')
 def index():
     """
-    Renders the main HTML page for the client-side audio player.
+    Main route that shows CI/CD info or the audio player
     """
-    return render_template('index.html') 
+    from datetime import datetime
+    
+    # Check if user wants the audio player
+    if request.args.get('player'):
+        return render_template('index.html')
+    
+    # Default: Show the CI/CD deployment message with link to player
+    return f'''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>CS6620 - Automated Deployment</title>
+        <style>
+            body {{
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 50px auto;
+                padding: 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+            }}
+            .container {{
+                background: white;
+                border-radius: 10px;
+                padding: 30px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            }}
+            h1 {{ color: #333; }}
+            .info {{ 
+                background: #f0f0f0; 
+                padding: 20px; 
+                border-radius: 5px;
+                margin: 20px 0;
+            }}
+            .button {{
+                display: inline-block;
+                padding: 12px 24px;
+                background: #4CAF50;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                margin-top: 20px;
+                font-size: 16px;
+            }}
+            .button:hover {{
+                background: #45a049;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🚀 Hello from Automated CI/CD Pipeline!</h1>
+            <div class="info">
+                <p><strong>Version:</strong> 2.0 - Automated Deployment</p>
+                <p><strong>Deployed via:</strong> GitHub Actions + AWS SSM</p>
+                <p><strong>Build Date:</strong> {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
+                <p><strong>Assignment:</strong> Automated EC2 Deployment</p>
+                <p><strong>Container:</strong> Docker Hub → tjkd1994/cs6620-flask-app</p>
+            </div>
+            <h3>✅ Deployment Pipeline Components:</h3>
+            <ul>
+                <li>GitHub Actions workflow triggered on push</li>
+                <li>Docker image built and pushed to Docker Hub</li>
+                <li>AWS Systems Manager (SSM) deployment</li>
+                <li>No SSH keys required - IAM-based authentication</li>
+                <li>Automatic container restart on failure</li>
+            </ul>
+            <a href="/?player=true" class="button">Open Audio Player Application →</a>
+            <a href="/health" class="button" style="background: #2196F3;">Check Health Endpoint →</a>
+        </div>
+    </body>
+    </html>
+    '''
 
 @app.route('/select_directory', methods=['POST'])
 def select_directory():
