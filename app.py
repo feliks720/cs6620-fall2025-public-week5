@@ -1,5 +1,5 @@
 # app.py
-# Version: 1.0.1
+# Version: 2.0
 # Built with GitHub Actions CI/CD
 
 import os
@@ -92,6 +92,28 @@ def parse_log_content(log_content):
             data[filename] = []
         data[filename].append(segment)
     return data
+
+
+@app.route('/')
+def hello():
+    return f'''
+    <h1>Hello from Automated CI/CD Pipeline!</h1>
+    <p><strong>Version:</strong> 2.0 - Automated Deployment</p>
+    <p><strong>Deployed via:</strong> GitHub Actions + AWS SSM</p>
+    <p><strong>Build Date:</strong> {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
+    <p><strong>Assignment:</strong> Automated EC2 Deployment</p>
+    '''
+
+
+@app.route('/health')
+def health():
+    return {
+        'status': 'healthy',
+        'version': '2.0',
+        'deployment_method': 'automated',
+        'timestamp': datetime.now().isoformat()
+    }
+
 
 @app.route('/audio_files/<path:filename>')
 def serve_audio_file(filename):
@@ -570,27 +592,6 @@ def auto_load_data():
             
         except Exception as e:
             app.logger.error(f"Failed to auto-load CSV: {e}")
-
-
-@app.route('/')
-def hello():
-    return f'''
-    <h1>Hello from Automated CI/CD Pipeline!</h1>
-    <p><strong>Version:</strong> 2.0 - Automated Deployment</p>
-    <p><strong>Deployed via:</strong> GitHub Actions + AWS SSM</p>
-    <p><strong>Build Date:</strong> {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</p>
-    <p><strong>Assignment:</strong> Automated EC2 Deployment</p>
-    '''
-
-
-@app.route('/health')
-def health():
-    return {
-        'status': 'healthy',
-        'version': '2.0',
-        'deployment_method': 'automated',
-        'timestamp': datetime.now().isoformat()
-    }
 
 
 if __name__ == '__main__':
